@@ -21,6 +21,7 @@ jobs:
     steps:
       - gh/setup:
           token: GITHUB_TOKEN
+      - run: ssh-keyscan -p 443 ssh.github.com >> ~/.ssh/known_hosts # for tests  https://discuss.circleci.com/t/the-authenticity-of-github-host-cant-be-stablished/33133/5
       - run:
           command: |
             git clone git@github.com:kskomro/test-circleci.git
