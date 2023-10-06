@@ -29,7 +29,8 @@ jobs:
     docker:
       - image: cimg/base:stable
     steps:
-      - gh/setup
+      - gh/setup:
+          token: GITHUB_TOKEN
       - run: git checkout -b xx
       - run: cp -f test.txt test-copy.txt
       - run: git commit -am "make a copy of test.txt"
@@ -39,8 +40,17 @@ jobs:
             gh pr create --title "Bugfix from $CIRCLE_BRANCH"
           name: Create Pull Request
 
+  echo-token:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run: echo $GITHUB_TOKEN
+
 workflows:
   version: 2
+  test-token:
+    jobs:
+      - echo-token
   my-workflow:
     when:
       and:
