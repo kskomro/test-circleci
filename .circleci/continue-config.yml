@@ -50,11 +50,15 @@ workflows:
   version: 2
   test-token:
     jobs:
-      - echo-token
+      - echo-token:
+        context:
+          - GITHUB_TOKEN
   my-workflow:
     when:
       and:
         - equal: [ main, << pipeline.git.branch >> ]
         - equal: [ true, << pipeline.parameters.sources-changed >> ]
     jobs:
-      - my-job
+      - my-job:
+        context:
+          - GITHUB_TOKEN
