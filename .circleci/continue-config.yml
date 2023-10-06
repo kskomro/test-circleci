@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  gh: circleci/github-cli@2.0
+
 #####################################################
 # Parameters
 #####################################################
@@ -12,14 +15,29 @@ parameters:
 # Workflows
 #####################################################
 jobs:
+  # create-a-pr:
+  #   docker:
+  #     - image: cimg/base:stable
+  #   steps:
+  #     - gh/setup
+  #     - run:
+  #         command: |
+  #           gh pr create --title "Bugfix from $CIRCLE_BRANCH"
+  #         name: Create Pull Request
+  #     - gh/clone
   my-job:
     docker:
       - image: cimg/base:stable
     steps:
+      - gh/setup
       - run: git checkout -b xx
       - run: cp -f test.txt test-copy.txt
       - run: git commit -am "make a copy of test.txt"
       - run: git push origin xx
+      - run:
+          command: |
+            gh pr create --title "Bugfix from $CIRCLE_BRANCH"
+          name: Create Pull Request
 
 workflows:
   version: 2
