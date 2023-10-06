@@ -1,0 +1,32 @@
+version: 2.1
+
+#####################################################
+# Parameters
+#####################################################
+parameters:
+  sources-changed:
+    type: boolean
+    default: false
+
+#####################################################
+# Workflows
+#####################################################
+jobs:
+  my-job:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run: git checkout -b xx
+      - run: cp -f test.txt test-copy.txt
+      - run: git commit -am "make a copy of test.txt"
+      - run: git push origin xx
+
+workflows:
+  version: 2
+  my-workflow:
+    when:
+      and:
+        - equal: [ main, << pipeline.git.branch >> ]
+        - equal: [ true, << pipeline.parameters.sources-changed >> ]
+    jobs:
+      - my-job
