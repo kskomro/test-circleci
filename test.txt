@@ -1,4 +1,2 @@
 new line
-one more test
-ehh and one more
-does it still work
+maybe there is no need for hooks management
